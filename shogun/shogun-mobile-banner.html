@@ -137,48 +137,74 @@
         const tractor1 = document.getElementById("tractor-1");
         const tractor2 = document.getElementById("tractor-2");
 
-        // Move the tractor after a short delay
-        setTimeout(() => {
-          tractor1.style.left = 350 + "px";
-        }, 1000);
+        // Function to reset the positions and widths
+        function resetAnimation() {
+          // Temporarily remove the transition to reset positions
+          tractor1.style.transition = "none";
+          tractor2.style.transition = "none";
+          slide2.style.transition = "none";
 
-        setTimeout(() => {
-          tractor2.style.left = -425 + "px";
-          slide1.style.zIndex = 0;
-        }, 5000);
+          tractor1.style.left = "-250px"; // Reset tractor1 position off-screen
+          tractor2.style.left = "305px"; // Reset tractor2 position off-screen
+          slide2.style.width = "0"; // Reset slide-2 width
+          slide1.style.zIndex = 1; // Reset zIndex
 
-        function updateTractor2() {
-          const tractor2Right = tractor2.getBoundingClientRect().right;
-          const offset = 275;
-
-          // Update the width of the progress bar (slide-2) to match the tractor's left position
-          if (tractor2Right - offset < 350) {
-            slide2.style.width = tractor2Right - offset + "px";
-          }
-
-          // Continue updating while the tractor is moving
-          if (tractor2Right < 850) {
-            requestAnimationFrame(updateTractor2);
-          }
+          // Reapply the transition after resetting positions (force reflow)
+          requestAnimationFrame(() => {
+            tractor1.style.transition = "all 3s linear";
+            tractor2.style.transition = "all 3s linear";
+          });
         }
 
-        function updateProgressBar() {
-          const tractor1Left = tractor1.getBoundingClientRect().left;
-          const offset = 75;
+        // Function to trigger the animation
+        function startAnimation() {
+          // Reset positions before starting the animation
+          resetAnimation();
 
-          // Update the width of the progress bar (slide-2) to match the tractor's left position
-          if (tractor1Left + offset <= 350) {
-            slide2.style.width = tractor1Left + offset + "px";
+          setTimeout(() => {
+            tractor1.style.left = "350px";
+          }, 2000);
+
+          setTimeout(() => {
+            tractor2.style.left = "-425px";
+            slide1.style.zIndex = 0;
+          }, 7000);
+
+          function updateTractor2() {
+            const tractor2Right = tractor2.getBoundingClientRect().right;
+            const offset = 275;
+
+            if (tractor2Right - offset < 350) {
+              slide2.style.width = tractor2Right - offset + "px";
+            }
+
+            if (tractor2Right < 850) {
+              requestAnimationFrame(updateTractor2);
+            }
           }
 
-          // Continue updating while the tractor is moving
-          if (tractor1Left < 350) {
-            requestAnimationFrame(updateProgressBar);
+          function updateProgressBar() {
+            const tractor1Left = tractor1.getBoundingClientRect().left;
+            const offset = 75;
+
+            if (tractor1Left + offset <= 350) {
+              slide2.style.width = tractor1Left + offset + "px";
+            }
+
+            if (tractor1Left < 350) {
+              requestAnimationFrame(updateProgressBar);
+            }
           }
+
+          requestAnimationFrame(updateTractor2);
+          requestAnimationFrame(updateProgressBar);
         }
 
-        requestAnimationFrame(updateTractor2);
-        requestAnimationFrame(updateProgressBar);
+        // Start the animation initially
+        startAnimation();
+
+        // Repeat the animation every 10 seconds (adjust as necessary)
+        setInterval(startAnimation, 12000);
       };
     </script>
   </body>
