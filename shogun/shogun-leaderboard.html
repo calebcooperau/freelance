@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML5 Banner</title>
+    <style>
+      @font-face {
+        font-family: "MaxOT";
+        src: url("/subset-MaxOT-Bold.woff2") format("woff2");
+      }
+
+      body {
+        font-family: "MaxOT", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #banner {
+        position: relative;
+        width: 350px;
+        height: 200px;
+        background-color: #f2f2f2;
+        overflow: hidden;
+        background-size: cover;
+      }
+
+      .slide {
+        height: 200px;
+        width: 350px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        position: absolute;
+      }
+
+      .slide .title {
+        color: white;
+        font-size: 36px;
+        text-align: center;
+        margin: auto;
+        width: 350px;
+      }
+
+      #slide-1 {
+        z-index: 1;
+      }
+      #slide-2 {
+        width: 0;
+        z-index: 2;
+      }
+      #slide-3 {
+        width: 100%;
+      }
+      .field {
+        background: url("/field.avif") no-repeat center center;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      #tractor-1 {
+        position: absolute;
+        left: -250px;
+        top: -172px;
+        transform: rotate(180deg);
+        transition: all 3s linear;
+      }
+      #tractor-2 {
+        position: absolute;
+        top: -60px;
+        left: 305px;
+        transition: all 3s linear;
+      }
+
+      .logo {
+        position: absolute;
+        top: -40px;
+        left: -225px;
+      }
+      .shogun {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45px);
+      }
+
+      img {
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="slide-1" class="slide">
+        <div class="field">
+          <h2 class="title">
+            <img class="logo" src="/adama-logo.png" height="200" width="800" />
+            <img class="shogun" src="/shogun-herbicide.png" height="200" />
+          </h2>
+        </div>
+      </div>
+      <div id="slide-2" class="slide">
+        <div class="field">
+          <h2 class="title">
+            <div>Dynamite on</div>
+            <div>grass weeds</div>
+            <div>in fallow</div>
+          </h2>
+        </div>
+      </div>
+      <div id="slide-3" class="slide">
+        <div class="field">
+          <h2 class="title">
+            <div>Minimal</div>
+            <div>re-cropping</div>
+            <div>interval</div>
+          </h2>
+        </div>
+      </div>
+      <img src="/tractor-1.png" height="550px" id="tractor-1" />
+      <img src="/tractor-2.png" height="300" id="tractor-2" />
+    </div>
+
+    <script>
+      window.onload = function () {
+        const slide1 = document.getElementById("slide-1");
+        const slide2 = document.getElementById("slide-2");
+        const slide3 = document.getElementById("slide-3");
+
+        const tractor1 = document.getElementById("tractor-1");
+        const tractor2 = document.getElementById("tractor-2");
+
+        // Move the tractor after a short delay
+        setTimeout(() => {
+          tractor1.style.left = 350 + "px";
+        }, 1000);
+
+        setTimeout(() => {
+          tractor2.style.left = -425 + "px";
+          slide1.style.zIndex = 0;
+        }, 5000);
+
+        function updateTractor2() {
+          const tractor2Right = tractor2.getBoundingClientRect().right;
+          const offset = 275;
+
+          // Update the width of the progress bar (slide-2) to match the tractor's left position
+          if (tractor2Right - offset < 350) {
+            slide2.style.width = tractor2Right - offset + "px";
+          }
+
+          // Continue updating while the tractor is moving
+          if (tractor2Right < 850) {
+            requestAnimationFrame(updateTractor2);
+          }
+        }
+
+        function updateProgressBar() {
+          const tractor1Left = tractor1.getBoundingClientRect().left;
+          const offset = 75;
+
+          // Update the width of the progress bar (slide-2) to match the tractor's left position
+          if (tractor1Left + offset <= 350) {
+            slide2.style.width = tractor1Left + offset + "px";
+          }
+
+          // Continue updating while the tractor is moving
+          if (tractor1Left < 350) {
+            requestAnimationFrame(updateProgressBar);
+          }
+        }
+
+        requestAnimationFrame(updateTractor2);
+        requestAnimationFrame(updateProgressBar);
+      };
+    </script>
+  </body>
+</html>
