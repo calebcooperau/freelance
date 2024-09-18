@@ -6,12 +6,12 @@
     <title>HTML5 Banner</title>
     <style>
       @font-face {
-        font-family: "MaxOT";
-        src: url("/subset-MaxOT-Bold.woff2") format("woff2");
+        font-family: "BrownPro";
+        src: url("subset-BrownPro-Bold.woff2") format("woff2");
       }
 
       body {
-        font-family: "MaxOT", sans-serif;
+        font-family: "BrownPro", sans-serif;
       }
 
       body {
@@ -22,16 +22,16 @@
 
       #banner {
         position: relative;
-        width: 350px;
-        height: 200px;
+        height: 250px;
+        width: 300px;
         background-color: #f2f2f2;
         overflow: hidden;
         background-size: cover;
       }
 
       .slide {
-        height: 200px;
-        width: 350px;
+        height: 250px;
+        width: 300px;
         display: grid;
         place-items: center;
         overflow: hidden;
@@ -40,10 +40,10 @@
 
       .slide .title {
         color: white;
-        font-size: 36px;
+        font-size: 38px;
         text-align: center;
         margin: auto;
-        width: 350px;
+        width: 300px;
       }
 
       #slide-1 {
@@ -57,7 +57,7 @@
         width: 100%;
       }
       .field {
-        background: url("/shogun/field.avif") no-repeat center center;
+        background: url("field.avif") no-repeat center center;
         height: 100%;
         display: flex;
         align-items: center;
@@ -68,21 +68,21 @@
       #tractor-1 {
         position: absolute;
         left: -250px;
-        top: -172px;
+        top: -104px;
         transform: rotate(180deg);
-        transition: all 3s linear;
+        transition: all 4.5s linear;
       }
       #tractor-2 {
         position: absolute;
-        top: -60px;
+        top: 6px;
         left: 305px;
-        transition: all 3s linear;
+        transition: all 4.5s linear;
       }
 
       .logo {
         position: absolute;
-        top: -40px;
-        left: -225px;
+        top: -30px;
+        left: -250px;
       }
       .shogun {
         position: absolute;
@@ -91,6 +91,15 @@
         transform: translate(-50%, -45px);
       }
 
+      .trademark {
+        font-size: 16px;
+        position: absolute;
+        top: 70px;
+      }
+
+      .shogun {
+        padding-top: 65px;
+      }
       img {
         z-index: 10;
       }
@@ -101,17 +110,12 @@
       <div id="slide-1" class="slide">
         <div class="field">
           <h2 class="title">
-            <img
-              class="logo"
-              src="/shogun/adama-logo.avif"
-              height="200"
-              width="800"
-            />
-            <img
-              class="shogun"
-              src="/shogun/shogun-herbicide.avif"
-              height="200"
-            />
+            <img class="logo" src="adama-logo.avif" height="200" width="800" />
+            <div class="shogun">
+              Shogun
+              <span class="trademark">&reg;</span>
+              <div>Herbicide</div>
+            </div>
           </h2>
         </div>
       </div>
@@ -133,8 +137,16 @@
           </h2>
         </div>
       </div>
-      <img src="/shogun/tractor-1.avif" height="550" id="tractor-1" />
-      <img src="/shogun/tractor-2.avif" height="300" id="tractor-2" />
+      <img
+        src="https://pub-0dfb39c7bc064a6ba1e715891af3a084.r2.dev/tractor-1.avif"
+        height="460"
+        id="tractor-1"
+      />
+      <img
+        src="https://pub-0dfb39c7bc064a6ba1e715891af3a084.r2.dev/tractor-2.avif"
+        height="220"
+        id="tractor-2"
+      />
     </div>
 
     <script>
@@ -160,8 +172,8 @@
 
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
-            tractor1.style.transition = "all 3s linear";
-            tractor2.style.transition = "all 3s linear";
+            tractor1.style.transition = "all 4.5s linear";
+            tractor2.style.transition = "all 4.5s linear";
           });
         }
 
@@ -172,18 +184,18 @@
 
           setTimeout(() => {
             tractor1.style.left = "350px";
-          }, 2000);
+          }, 2500);
 
           setTimeout(() => {
             tractor2.style.left = "-425px";
             slide1.style.zIndex = 0;
-          }, 7000);
+          }, 8500);
 
           function updateTractor2() {
             const tractor2Right = tractor2.getBoundingClientRect().right;
-            const offset = 275;
+            const offset = 225;
 
-            if (tractor2Right - offset < 350) {
+            if (tractor2Right - offset < 300) {
               slide2.style.width = tractor2Right - offset + "px";
             }
 
@@ -194,26 +206,26 @@
 
           function updateProgressBar() {
             const tractor1Left = tractor1.getBoundingClientRect().left;
-            const offset = 75;
+            const offset = 60;
 
-            if (tractor1Left + offset <= 350) {
+            if (tractor1Left + offset <= 300) {
               slide2.style.width = tractor1Left + offset + "px";
             }
 
-            if (tractor1Left < 350) {
+            if (tractor1Left < 300) {
               requestAnimationFrame(updateProgressBar);
             }
           }
 
-          requestAnimationFrame(updateTractor2);
           requestAnimationFrame(updateProgressBar);
+          requestAnimationFrame(updateTractor2);
         }
 
         // Start the animation initially
         startAnimation();
 
         // Repeat the animation every 10 seconds (adjust as necessary)
-        setInterval(startAnimation, 12000);
+        setInterval(startAnimation, 15000);
       };
     </script>
   </body>
