@@ -158,7 +158,6 @@
           tractor2.style.left = "305px"; // Reset tractor2 position off-screen
           slide2.style.width = "0"; // Reset slide-2 width
           slide1.style.zIndex = 1; // Reset zIndex
-
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
             tractor1.style.transition = "all 4.5s linear";
@@ -178,7 +177,7 @@
           setTimeout(() => {
             tractor2.style.left = "-425px";
             slide1.style.zIndex = 0;
-          }, 8500);
+          }, 9500);
 
           function updateTractor2() {
             const tractor2Right = tractor2.getBoundingClientRect().right;
@@ -214,7 +213,7 @@
         startAnimation();
 
         // Repeat the animation every 10 seconds (adjust as necessary)
-        setInterval(startAnimation, 15000);
+        setInterval(startAnimation, 15500);
       };
     </script>
   </body>

@@ -40,7 +40,7 @@
 
       .slide .title {
         color: white;
-        font-size: 38px;
+        font-size: 20px;
         text-align: center;
         margin: auto;
         width: 320px;
@@ -57,7 +57,7 @@
         width: 100%;
       }
       .field {
-        background: url("field.avif") no-repeat center center;
+        background: url("field-320x50.jpg") no-repeat center center;
         height: 100%;
         display: flex;
         align-items: center;
@@ -68,38 +68,29 @@
       #tractor-1 {
         position: absolute;
         left: -250px;
-        top: -104px;
         transform: rotate(180deg);
         transition: all 4.5s linear;
       }
       #tractor-2 {
         position: absolute;
-        top: 6px;
-        left: 305px;
+        left: 315px;
         transition: all 4.5s linear;
       }
 
-      .logo {
-        position: absolute;
-        top: -30px;
-        left: -250px;
-      }
       .shogun {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -45px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo {
+        margin-right: 10px;
       }
 
       .trademark {
-        font-size: 16px;
-        position: absolute;
-        top: 70px;
+        font-size: 8px;
+        padding-bottom: 10px;
       }
 
-      .shogun {
-        padding-top: 65px;
-      }
       img {
         z-index: 10;
       }
@@ -110,11 +101,11 @@
       <div id="slide-1" class="slide">
         <div class="field">
           <h2 class="title">
-            <img class="logo" src="adama-logo.avif" height="200" width="800" />
             <div class="shogun">
+              <img class="logo" src="logo-320x50.png" />
               Shogun
               <span class="trademark">&reg;</span>
-              <div>Herbicide</div>
+              &nbsp; Herbicide
             </div>
           </h2>
         </div>
@@ -122,31 +113,21 @@
       <div id="slide-2" class="slide">
         <div class="field">
           <h2 class="title">
-            <div>Dynamite on</div>
-            <div>grass weeds</div>
-            <div>in fallow</div>
+            <div>Dynamite on grass</div>
+            <div>weeds in fallow</div>
           </h2>
         </div>
       </div>
       <div id="slide-3" class="slide">
         <div class="field">
           <h2 class="title">
-            <div>Minimal</div>
-            <div>re-cropping</div>
+            <div>Minimal re-cropping</div>
             <div>interval</div>
           </h2>
         </div>
       </div>
-      <img
-        src="https://pub-0dfb39c7bc064a6ba1e715891af3a084.r2.dev/tractor-1.avif"
-        height="460"
-        id="tractor-1"
-      />
-      <img
-        src="https://pub-0dfb39c7bc064a6ba1e715891af3a084.r2.dev/tractor-2.avif"
-        height="220"
-        id="tractor-2"
-      />
+      <img src="tractor-1-320x50.png" id="tractor-1" />
+      <img src="tractor-2-320x50.png" id="tractor-2" />
     </div>
 
     <script>
@@ -166,7 +147,7 @@
           slide2.style.transition = "none";
 
           tractor1.style.left = "-250px"; // Reset tractor1 position off-screen
-          tractor2.style.left = "305px"; // Reset tractor2 position off-screen
+          tractor2.style.left = "315px"; // Reset tractor2 position off-screen
           slide2.style.width = "0"; // Reset slide-2 width
           slide1.style.zIndex = 1; // Reset zIndex
 
@@ -182,20 +163,20 @@
           // Reset positions before starting the animation
           resetAnimation();
 
-          // setTimeout(() => {
-          //   tractor1.style.left = "350px";
-          // }, 2500);
+          setTimeout(() => {
+            tractor1.style.left = "350px";
+          }, 2500);
 
-          // setTimeout(() => {
-          //   tractor2.style.left = "-425px";
-          //   slide1.style.zIndex = 0;
-          // }, 8500);
+          setTimeout(() => {
+            tractor2.style.left = "-425px";
+            slide1.style.zIndex = 0;
+          }, 9500);
 
           function updateTractor2() {
             const tractor2Right = tractor2.getBoundingClientRect().right;
-            const offset = 225;
+            const offset = 65;
 
-            if (tractor2Right - offset < 320) {
+            if (tractor2Right - offset < 226) {
               slide2.style.width = tractor2Right - offset + "px";
             }
 
@@ -204,20 +185,20 @@
             }
           }
 
-          function updateProgressBar() {
+          function updateTractor1() {
             const tractor1Left = tractor1.getBoundingClientRect().left;
-            const offset = 60;
+            const offset = 6;
 
             if (tractor1Left + offset <= 320) {
               slide2.style.width = tractor1Left + offset + "px";
             }
 
             if (tractor1Left < 320) {
-              requestAnimationFrame(updateProgressBar);
+              requestAnimationFrame(updateTractor1);
             }
           }
 
-          requestAnimationFrame(updateProgressBar);
+          requestAnimationFrame(updateTractor1);
           requestAnimationFrame(updateTractor2);
         }
 
@@ -225,7 +206,7 @@
         startAnimation();
 
         // Repeat the animation every 10 seconds (adjust as necessary)
-        // setInterval(startAnimation, 15000);
+        setInterval(startAnimation, 14000);
       };
     </script>
   </body>
