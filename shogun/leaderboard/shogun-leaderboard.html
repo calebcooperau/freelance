@@ -68,7 +68,7 @@
 
       #tractor-1 {
         position: absolute;
-        left: -250px;
+        left: -70px;
         transform: rotate(180deg);
         transition: all 7.5s linear;
       }
@@ -137,6 +137,9 @@
         const tractor1 = document.getElementById("tractor-1");
         const tractor2 = document.getElementById("tractor-2");
 
+        let animationTimeouts = []; // Store timeout IDs for clear later
+        let animationInterval; // Store interval ID
+
         // Function to reset the positions and widths
         function resetAnimation() {
           // Temporarily remove the transition to reset positions
@@ -144,15 +147,15 @@
           tractor2.style.transition = "none";
           slide2.style.transition = "none";
 
-          tractor1.style.left = "-250px"; // Reset tractor1 position off-screen
+          tractor1.style.left = "-70px"; // Reset tractor1 position off-screen
           tractor2.style.left = "720px"; // Reset tractor2 position off-screen
           slide2.style.width = "0"; // Reset slide-2 width
           slide1.style.zIndex = 1; // Reset zIndex
 
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
-            tractor1.style.transition = "all 7.5s linear";
-            tractor2.style.transition = "all 6.5s linear";
+            tractor1.style.transition = "all 5.5s linear";
+            tractor2.style.transition = "all 5.5s linear";
           });
         }
 
@@ -160,15 +163,22 @@
         function startAnimation() {
           // Reset positions before starting the animation
           resetAnimation();
+          // Clear previous timeouts to prevent overlap
+          animationTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+          animationTimeouts = [];
 
-          setTimeout(() => {
-            tractor1.style.left = "728px";
-          }, 500);
+          animationTimeouts.push(
+            setTimeout(() => {
+              tractor1.style.left = "728px";
+            }, 750)
+          );
 
-          setTimeout(() => {
-            tractor2.style.left = "-125px";
-            slide1.style.zIndex = 0;
-          }, 9500);
+          animationTimeouts.push(
+            setTimeout(() => {
+              tractor2.style.left = "-125px";
+              slide1.style.zIndex = 0;
+            }, 7000)
+          );
 
           function updateTractor2() {
             const tractor2Right = tractor2.getBoundingClientRect().right;
@@ -199,11 +209,26 @@
           requestAnimationFrame(updateTractor2);
         }
 
+        // Visibility change handler
+        function handleVisibilityChange() {
+          if (document.hidden) {
+            // Stop all timeouts and interval if the tab is hidden
+            animationTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+            clearInterval(animationInterval);
+          } else {
+            // Restart animation when the tab becomes visible
+            startAnimation();
+            animationInterval = setInterval(startAnimation, 11000);
+          }
+        }
+
         // Start the animation initially
         startAnimation();
 
         // Repeat the animation every 10 seconds (adjust as necessary)
-        setInterval(startAnimation, 18000);
+        animationInterval = setInterval(startAnimation, 13000);
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
       };
     </script>
   </body>
