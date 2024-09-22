@@ -7,7 +7,7 @@
     <style>
       @font-face {
         font-family: "BrownPro";
-        src: url("subset-BrownPro-Bold.woff2") format("woff2");
+        src: url("subset-BrownPro-Regular.woff2") format("woff2");
       }
 
       body {
@@ -44,6 +44,7 @@
         text-align: center;
         margin: auto;
         width: 728px;
+        text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 1);
       }
 
       #slide-1 {
@@ -69,16 +70,16 @@
         position: absolute;
         left: -250px;
         transform: rotate(180deg);
-        transition: all 4.5s linear;
+        transition: all 7.5s linear;
       }
       #tractor-2 {
         position: absolute;
         left: 720px;
-        transition: all 4.5s linear;
+        transition: all 7.5s linear;
       }
 
       .logo {
-        margin-right: 20px;
+        margin-right: 50px;
       }
       .shogun {
         display: flex;
@@ -112,16 +113,14 @@
       <div id="slide-2" class="slide">
         <div class="field">
           <h2 class="title">
-            <div>Dynamite on grass</div>
-            <div>weeds in fallow</div>
+            <div>Dynamite on grass weeds in fallow</div>
           </h2>
         </div>
       </div>
       <div id="slide-3" class="slide">
         <div class="field">
           <h2 class="title">
-            <div>Minimal re-cropping</div>
-            <div>interval</div>
+            <div>Minimal re-cropping interval</div>
           </h2>
         </div>
       </div>
@@ -152,8 +151,8 @@
 
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
-            tractor1.style.transition = "all 4.5s linear";
-            tractor2.style.transition = "all 3.5s linear";
+            tractor1.style.transition = "all 7.5s linear";
+            tractor2.style.transition = "all 6.5s linear";
           });
         }
 
@@ -164,7 +163,7 @@
 
           setTimeout(() => {
             tractor1.style.left = "728px";
-          }, 2500);
+          }, 500);
 
           setTimeout(() => {
             tractor2.style.left = "-125px";
@@ -204,7 +203,7 @@
         startAnimation();
 
         // Repeat the animation every 10 seconds (adjust as necessary)
-        setInterval(startAnimation, 15000);
+        setInterval(startAnimation, 18000);
       };
     </script>
   </body>

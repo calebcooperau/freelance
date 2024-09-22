@@ -7,7 +7,7 @@
     <style>
       @font-face {
         font-family: "BrownPro";
-        src: url("subset-BrownPro-Bold.woff2") format("woff2");
+        src: url("subset-BrownPro-Regular.woff2") format("woff2");
       }
 
       body {
@@ -44,6 +44,7 @@
         text-align: center;
         margin: auto;
         width: 320px;
+        text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 1);
       }
 
       #slide-1 {
@@ -69,12 +70,12 @@
         position: absolute;
         left: -250px;
         transform: rotate(180deg);
-        transition: all 4.5s linear;
+        transition: all 7.5s linear;
       }
       #tractor-2 {
         position: absolute;
         left: 315px;
-        transition: all 4.5s linear;
+        transition: all 7.5s linear;
       }
 
       .shogun {
@@ -83,7 +84,7 @@
         justify-content: center;
       }
       .logo {
-        margin-right: 10px;
+        margin-right: 30px;
       }
 
       .trademark {
@@ -153,8 +154,8 @@
 
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
-            tractor1.style.transition = "all 4.5s linear";
-            tractor2.style.transition = "all 4.5s linear";
+            tractor1.style.transition = "all 7.5s linear";
+            tractor2.style.transition = "all 7.5s linear";
           });
         }
 
@@ -165,7 +166,7 @@
 
           setTimeout(() => {
             tractor1.style.left = "350px";
-          }, 2500);
+          }, 500);
 
           setTimeout(() => {
             tractor2.style.left = "-425px";
@@ -206,7 +207,7 @@
         startAnimation();
 
         // Repeat the animation every 10 seconds (adjust as necessary)
-        setInterval(startAnimation, 14000);
+        setInterval(startAnimation, 15500);
       };
     </script>
   </body>
