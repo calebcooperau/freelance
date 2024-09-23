@@ -155,6 +155,10 @@
           slide2.style.width = "0"; // Reset slide-2 width
           slide1.style.zIndex = 1; // Reset zIndex
 
+          animationTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+          animationTimeouts = [];
+          clearInterval(animationInterval);
+
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
             tractor1.style.transition = "all 4.5s linear";
@@ -166,10 +170,6 @@
         function startAnimation() {
           // Reset positions before starting the animation
           resetAnimation();
-
-          // Clear previous timeouts to prevent overlap
-          animationTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-          animationTimeouts = [];
 
           animationTimeouts.push(
             setTimeout(() => {
@@ -214,26 +214,34 @@
           requestAnimationFrame(updateTractor2);
         }
 
-        // Visibility change handler
+        function handleFocus() {
+          startAnimation();
+          animationInterval = setInterval(startAnimation, 11000);
+        }
+
+        function handleBlur() {
+          resetAnimation();
+        }
+
         function handleVisibilityChange() {
           if (document.hidden) {
-            // Stop all timeouts and interval if the tab is hidden
-            animationTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-            clearInterval(animationInterval);
+            resetAnimation();
           } else {
-            // Restart animation when the tab becomes visible
             startAnimation();
             animationInterval = setInterval(startAnimation, 11000);
           }
         }
 
+        if (typeof document.hidden !== "undefined") {
+          document.addEventListener("visibilitychange", handleVisibilityChange);
+        } else {
+          window.addEventListener("focus", handleFocus);
+          window.addEventListener("blur", handleBlur);
+        }
         // Start the animation initially
         startAnimation();
 
-        // Repeat the animation every 10 seconds (adjust as necessary)
         animationInterval = setInterval(startAnimation, 11000);
-
-        document.addEventListener("visibilitychange", handleVisibilityChange);
       };
     </script>
   </body>
