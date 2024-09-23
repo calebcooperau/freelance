@@ -95,6 +95,24 @@
       img {
         z-index: 10;
       }
+
+      @keyframes move-tractor-1 {
+        from {
+          left: -47px;
+        }
+        to {
+          left: 320px;
+        }
+      }
+
+      @keyframes move-tractor-2 {
+        from {
+          left: 315px;
+        }
+        to {
+          left: -215px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -140,49 +158,43 @@
         const tractor1 = document.getElementById("tractor-1");
         const tractor2 = document.getElementById("tractor-2");
 
-        let animationTimeouts = []; // Store timeout IDs for clear later
-        let animationInterval; // Store interval ID
-
-        // Function to reset the positions and widths
         function resetAnimation() {
           // Temporarily remove the transition to reset positions
-          tractor1.style.transition = "none";
-          tractor2.style.transition = "none";
-          slide2.style.transition = "none";
+          tractor1.style.animation = "none";
+          tractor2.style.animation = "none";
 
           tractor1.style.left = "-47px"; // Reset tractor1 position off-screen
           tractor2.style.left = "315px"; // Reset tractor2 position off-screen
           slide2.style.width = "0"; // Reset slide-2 width
           slide1.style.zIndex = 1; // Reset zIndex
 
-          animationTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-          animationTimeouts = [];
-          clearInterval(animationInterval);
-
           // Reapply the transition after resetting positions (force reflow)
           requestAnimationFrame(() => {
-            tractor1.style.transition = "all 4.5s linear";
-            tractor2.style.transition = "all 4.5s linear";
+            tractor1.style.animation =
+              "move-tractor-1 4.5s .750s linear forwards";
           });
         }
 
         // Function to trigger the animation
         function startAnimation() {
-          // Reset positions before starting the animation
           resetAnimation();
 
-          animationTimeouts.push(
-            setTimeout(() => {
-              tractor1.style.left = "320px";
-            }, 750)
-          );
+          function updateTractor1() {
+            const tractor1Left = tractor1.getBoundingClientRect().left;
+            const offset = 6;
 
-          animationTimeouts.push(
-            setTimeout(() => {
-              tractor2.style.left = "-80px";
+            if (tractor1Left + offset <= 320) {
+              slide2.style.width = tractor1Left + offset + "px";
+            } else {
               slide1.style.zIndex = 0;
-            }, 6000)
-          );
+              tractor2.style.animation =
+                "move-tractor-2 5.5s 2s linear forwards";
+            }
+
+            if (tractor1Left < 320) {
+              requestAnimationFrame(updateTractor1);
+            }
+          }
 
           function updateTractor2() {
             const tractor2Right = tractor2.getBoundingClientRect().right;
@@ -191,58 +203,20 @@
             if (tractor2Right - offset < 226) {
               slide2.style.width = tractor2Right - offset + "px";
             }
+            if (tractor2Right < -100) {
+              startAnimation();
+            }
 
             if (tractor2Right < 850) {
               requestAnimationFrame(updateTractor2);
             }
           }
 
-          function updateTractor1() {
-            const tractor1Left = tractor1.getBoundingClientRect().left;
-            const offset = 6;
-
-            if (tractor1Left + offset <= 320) {
-              slide2.style.width = tractor1Left + offset + "px";
-            }
-
-            if (tractor1Left < 320) {
-              requestAnimationFrame(updateTractor1);
-            }
-          }
-
           requestAnimationFrame(updateTractor1);
           requestAnimationFrame(updateTractor2);
-          animationInterval = setInterval(startAnimation, 11000);
         }
 
-        function handleFocus() {
-          startAnimation();
-          animationInterval = setInterval(startAnimation, 11000);
-        }
-
-        function handleBlur() {
-          resetAnimation();
-        }
-
-        function handleVisibilityChange() {
-          if (document.hidden) {
-            resetAnimation();
-          } else {
-            startAnimation();
-            animationInterval = setInterval(startAnimation, 11000);
-          }
-        }
-
-        if (typeof document.hidden !== "undefined") {
-          document.addEventListener("visibilitychange", handleVisibilityChange);
-        } else {
-          window.addEventListener("focus", handleFocus);
-          window.addEventListener("blur", handleBlur);
-        }
-        // Start the animation initially
         startAnimation();
-
-        animationInterval = setInterval(startAnimation, 11000);
       };
     </script>
   </body>
